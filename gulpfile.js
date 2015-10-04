@@ -5,7 +5,9 @@ var gulp = require('gulp'),
     open = require('gulp-open'),  // Open a URL in a web browser
     browserify = require('browserify'), // Bundles JS
     reactify = require('reactify'), // Transforms React JSX to JS
-    source = require('vinyl-source-stream'); // Use conventional text streams with Gulp
+    source = require('vinyl-source-stream'), // Use conventional text streams with Gulp
+    concat = require('gulp-concat'), // concat files
+    lint = require('gulp-eslint'); // to lint our files including jsx
 
 var config = {
   port: 9005,
@@ -13,6 +15,10 @@ var config = {
   paths: {
     html: './src/*.html',
     js: './src/**/*.js',
+    css: [
+      'node_modules/bootstrap/dist/css/bootstrap.min.css',
+      'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
+    ],
     mainJs: './src/main.js',
     dist: './dist'
   }
@@ -28,6 +34,7 @@ gulp.task('connect', function() {
   });
 });
 
+// Open a file in a browser when it is started
 gulp.task('open', ['connect'], function() {
   gulp.src('dist/index.html')
     .pipe(open({
@@ -35,6 +42,7 @@ gulp.task('open', ['connect'], function() {
     }));
 });
 
+// move html to dist folder and reload browser immediately
 gulp.task('html', function() {
   gulp.src(config.paths.html)
     .pipe(gulp.dest(config.paths.dist))
@@ -51,9 +59,21 @@ gulp.task('js', function() {
     .pipe(connect.reload());  // reload browser
 });
 
-gulp.task('watch', function() {
-  gulp.watch(config.paths.html, ['html']);
-  gulp.watch(config.paths.js, ['js']);
+gulp.task('css', function() {
+  gulp.src(config.paths.css)
+    .pipe(concat('bundle.css'))
+    .pipe(gulp.dest(config.paths.dist + '/css'));
 });
 
-gulp.task('default', ['html', 'js', 'open', 'watch']);
+gulp.task('lint', function() {
+  return gulp.src(config.paths.js)
+    .pipe(lint({config: 'eslint.config.json'}))
+    .pipe(lint.format());
+});
+
+gulp.task('watch', function() {
+  gulp.watch(config.paths.html, ['html']);
+  gulp.watch(config.paths.js, ['js', 'lint']);
+});
+
+gulp.task('default', ['html', 'js', 'css', 'lint', 'open', 'watch']);
