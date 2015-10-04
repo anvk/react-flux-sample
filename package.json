@@ -1,0 +1,43 @@
+{
+  "name": "react-flux-sample",
+  "version": "0.0.1",
+  "author": "anvk",
+  "main": "",
+  "description": "",
+  "contributors": [
+    {
+      "name": "Alexey Novak",
+      "email": "alexey.novak.mail@gmail.com"
+    }
+  ],
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha --reporter spec test/*"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:anvk/react-flux-sample.git"
+  },
+  "keywords": [
+    "react",
+    "flux",
+    "example"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.5",
+    "browserify": "^11.2.0",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-connect": "^2.2.0",
+    "gulp-open": "^1.0.0",
+    "jquery": "^2.1.4",
+    "reactify": "^1.1.1",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "devDependencies": {},
+  "engine": "node >= 0.10.x",
+  "private": false,
+  "license": "MIT"
+}
