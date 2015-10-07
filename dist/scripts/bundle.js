@@ -44518,20 +44518,22 @@ module.exports = AuthorPage;
 },{"../../api/authorApi.js":198,"./authorList.js":202,"react":197}],204:[function(require,module,exports){
 'use strict';
 
-var React = require('react');
+var React = require('react'),
+    Router = require('react-router'),
+    Link = Router.Link;
 
 var Header = React.createClass({displayName: "Header",
   render: function() {
     return (
       React.createElement("nav", {className: "navbar navbar-default"}, 
         React.createElement("div", {className: "container-fluid"}, 
-          React.createElement("a", {href: "/", className: "navbar-brand"}, 
+          React.createElement(Link, {to: "app", className: "navbar-brand"}, 
             React.createElement("img", {src: "images/logo.png"})
           ), 
           React.createElement("ul", {className: "nav navbar-nav"}, 
-            React.createElement("li", null, React.createElement("a", {href: "/"}, "Home")), 
-            React.createElement("li", null, React.createElement("a", {href: "/#authors"}, "Authors")), 
-            React.createElement("li", null, React.createElement("a", {href: "/#about"}, "About"))
+            React.createElement("li", null, React.createElement(Link, {to: "app"}, "Home")), 
+            React.createElement("li", null, React.createElement(Link, {to: "authors"}, "Authors")), 
+            React.createElement("li", null, React.createElement(Link, {to: "about"}, "About"))
           )
         )
       )
@@ -44540,7 +44542,7 @@ var Header = React.createClass({displayName: "Header",
 });
 
 module.exports = Header;
-},{"react":197}],205:[function(require,module,exports){
+},{"react":197,"react-router":28}],205:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
