@@ -44401,6 +44401,21 @@ module.exports = {
 var React = require('react');
 
 var About = React.createClass({displayName: "About",
+  statics: {
+    willTransitionTo: function(transition, params, query, callback) {
+      if (!confirm('Are you sure you want to see About?')) {
+        transition.abort();
+      } else {
+        callback();
+      }
+    },
+    willTransitionFrom: function(transition, component) {
+      if (!confirm('Are you sure you want to leave About?')) {
+        transition.abort();
+      }
+    }
+  },
+
   render: function() {
     return (
       React.createElement("div", null, 
@@ -44461,7 +44476,7 @@ var AuthorList = React.createClass({displayName: "AuthorList",
     var createAuthorRow = function(author) {
       return (
         React.createElement("tr", {key: author.id}, 
-          React.createElement("td", null, React.createElement("a", {href: "/#authors/" + author.id}, author.id)), 
+          React.createElement("td", null, React.createElement("a", {href: "/authors/" + author.id}, author.id)), 
           React.createElement("td", null, author.firstName, " ", author.lastName)
         )
       );
@@ -44563,28 +44578,54 @@ module.exports = Home;
 'use strict';
 
 var React = require('react'),
+    Link = require('react-router').Link;
+
+var NotFoundPage = React.createClass({displayName: "NotFoundPage",
+  render: function() {
+    return (
+      React.createElement("div", null, 
+        React.createElement("h1", null, "Page Not Found"), 
+        React.createElement("p", null, "Whoops! Sorry, there is nothing to see here. "), 
+        React.createElement("p", null, React.createElement(Link, {to: "app"}, "Back to Home"))
+      )
+    );
+  }
+});
+
+module.exports = NotFoundPage;
+},{"react":197,"react-router":28}],207:[function(require,module,exports){
+'use strict';
+
+var React = require('react'),
     Router = require('react-router'),
     routes = require('./routes.js');
 
+// add Router.HistoryLocation if you want to use clean HTML5 router
 Router.run(routes, function(Handler) {
   React.render(React.createElement(Handler, null), document.getElementById('app'));
 });
-},{"./routes.js":207,"react":197,"react-router":28}],207:[function(require,module,exports){
+},{"./routes.js":208,"react":197,"react-router":28}],208:[function(require,module,exports){
 'use strict';
 
 var React = require('react'),
     Router = require('react-router'),
     DefaultRoute = Router.DefaultRoute,
-    Route = Router.Route;
+    Route = Router.Route,
+    NotFoundRoute = Router.NotFoundRoute,
+    Redirect = Router.Redirect;
 
 var routes = (
   React.createElement(Route, {name: "app", path: "/", handler: require('./components/app.js')}, 
     React.createElement(DefaultRoute, {handler: require('./components/homePage.js')}), 
     React.createElement(Route, {name: "authors", handler: require('./components/authors/authorPage.js')}), 
     "// use path=\"about-page\" for changing URL name", 
-    React.createElement(Route, {name: "about", handler: require('./components/about/aboutPage.js')})
+    React.createElement(Route, {name: "about", handler: require('./components/about/aboutPage.js')}), 
+    React.createElement(NotFoundRoute, {handler: require('./components/notFoundPage.js')}), 
+    React.createElement(Redirect, {from: "about-us", to: "about"}), 
+    React.createElement(Redirect, {from: "author", to: "authors"}), 
+    React.createElement(Redirect, {from: "about/*", to: "about"})
   )
 );
 
 module.exports = routes;
-},{"./components/about/aboutPage.js":200,"./components/app.js":201,"./components/authors/authorPage.js":203,"./components/homePage.js":205,"react":197,"react-router":28}]},{},[206]);
+},{"./components/about/aboutPage.js":200,"./components/app.js":201,"./components/authors/authorPage.js":203,"./components/homePage.js":205,"./components/notFoundPage.js":206,"react":197,"react-router":28}]},{},[207]);
