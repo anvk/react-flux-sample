@@ -11,6 +11,8 @@ var routes = (
   <Route name="app" path="/" handler={require('./components/app.js')}>
     <DefaultRoute handler={require('./components/homePage.js')} />
     <Route name="authors" handler={require('./components/authors/authorPage.js')} />
+    <Route name="addAuthor" path="author" handler={require('./components/authors/manageAuthorPage.js')} />
+    <Route name="manageAuthor" path="author/:id" handler={require('./components/authors/manageAuthorPage.js')} />
     // use path="about-page" for changing URL name
     <Route name="about" handler={require('./components/about/aboutPage.js')} />
     <NotFoundRoute handler={require('./components/notFoundPage.js')} />
