@@ -71,7 +71,7 @@ var ManageAuthorPage = React.createClass({
     }
 
     if (this.state.author.id) {
-      AuthorActions.updateAuthor(this.state.author)
+      AuthorActions.updateAuthor(this.state.author);
     } else {
       AuthorActions.createAuthor(this.state.author);
     }
